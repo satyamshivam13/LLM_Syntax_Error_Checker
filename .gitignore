@@ -1,0 +1,20 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Models (large binaries)
+models/
+
+# Local test files
+test.java
+
+# Dataset working folders
+dataset/active/
+dataset/archieve/
+dataset/merged/
+
+# OS junk
+.DS_Store
