@@ -1,0 +1,26 @@
+ADVANCED EVALUATION METRICS REPORT
+============================================================
+
+Cohen's Kappa: 0.8385
+Matthews Correlation Coefficient: 0.8413
+
+          Error Type  Precision   Recall  F1-Score  Support
+         ImportError   1.000000 1.000000  1.000000      104
+      WildcardImport   1.000000 1.000000  1.000000      103
+         LineTooLong   1.000000 1.000000  1.000000      100
+     UnreachableCode   1.000000 1.000000  1.000000       66
+UndeclaredIdentifier   1.000000 1.000000  1.000000       47
+       MissingImport   0.990291 1.000000  0.995122      102
+      MutableDefault   0.990099 1.000000  0.995025      100
+        InfiniteLoop   0.937500 1.000000  0.967742      105
+           NameError   0.934579 1.000000  0.966184      100
+ DuplicateDefinition   1.000000 0.928571  0.962963       84
+    IndentationError   0.888889 1.000000  0.941176      104
+      MissingInclude   0.941176 0.864865  0.901408      111
+    UnmatchedBracket   0.946809 0.847619  0.894472      105
+      UnusedVariable   0.871795 0.871795  0.871795       78
+      UnclosedString   0.769231 1.000000  0.869565       90
+   InvalidAssignment   0.595745 0.933333  0.727273       90
+      DivisionByZero   0.548896 0.776786  0.643253      224
+        TypeMismatch   0.872727 0.487310  0.625407      197
+    MissingDelimiter   0.750000 0.440758  0.555224      211

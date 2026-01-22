@@ -1,20 +1,126 @@
-# Virtual environment
+# ============================================================
+# Python Virtual Environments
+# ============================================================
 .venv/
+venv/
+env/
+ENV/
+.virtualenv/
 
-# Python cache
+# ============================================================
+# Python Cache & Compiled Files
+# ============================================================
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
 
-# Models (large binaries)
-models/
+# ============================================================
+# Jupyter Notebook
+# ============================================================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
 
-# Local test files
-test.java
+# ============================================================
+# ML Models & Large Files (Optional - Keep if pre-trained)
+# ============================================================
+# Uncomment to exclude models from version control:
+# models/*.pkl
+# models/*.joblib
+# models/*.h5
 
-# Dataset working folders
-dataset/active/
+# ============================================================
+# Dataset Files (Keep active datasets, exclude backups)
+# ============================================================
 dataset/archieve/
-dataset/merged/
+dataset/temp/
+dataset/*.xlsx
+dataset/*.zip
 
-# OS junk
+# ============================================================
+# Results & Logs
+# ============================================================
+results/temp/
+*.log
+logs/
+
+# ============================================================
+# IDE & Editor Files
+# ============================================================
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ============================================================
+# Operating System Files
+# ============================================================
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# ============================================================
+# Temporary Files
+# ============================================================
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+.cache/
+
+# ============================================================
+# Environment Variables
+# ============================================================
+.env
+.env.local
+.env.*.local
+
+# ============================================================
+# Coverage Reports
+# ============================================================
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# ============================================================
+# Testing
+# ============================================================
+.pytest_cache/
+.tox/
+
+# ============================================================
+# Documentation Build
+# ============================================================
+docs/_build/
+site/
+
+# ============================================================
+# Local Configuration
+# ============================================================
+config.local.json
+secrets.json

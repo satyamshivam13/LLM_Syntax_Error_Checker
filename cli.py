@@ -4,7 +4,9 @@
 # ============================================================
 
 import sys
-from error_engine import detect_errors
+from src.error_engine import detect_errors
+from src.auto_fix import AutoFixer
+from src.quality_analyzer import CodeQualityAnalyzer
 
 
 def print_usage():
@@ -70,6 +72,68 @@ def main():
                 print(f"   Suggestion: {issue.get('suggestion')}")
     else:
         print("✅ No rule-based syntax issues detected.")
+    
+    # --------------------------------------------------------
+    # 6. Auto-Fix Suggestion
+    # --------------------------------------------------------
+    if result['predicted_error'] != "NoError":
+        print("\n" + "=" * 60)
+        print("🔧 AUTO-FIX SUGGESTION")
+        print("=" * 60)
+        
+        fixer = AutoFixer()
+        line_num = 0
+        
+        # Get line number from issues
+        if issues:
+            for issue in issues:
+                if issue.get('line'):
+                    line_num = issue['line'] - 1
+                    break
+        
+        fix_result = fixer.apply_fixes(code, result['predicted_error'], line_num, result['language'])
+        
+        if fix_result['success']:
+            print("✅ Automatic fix available!\n")
+            print("Fixed Code:")
+            print("-" * 60)
+            print(fix_result['fixed_code'])
+            print("-" * 60)
+            print("\nChanges Applied:")
+            for change in fix_result['changes']:
+                print(f"  • {change}")
+        else:
+            print("ℹ️ Manual correction recommended for this error type.")
+    
+    # --------------------------------------------------------
+    # 7. Code Quality Analysis
+    # --------------------------------------------------------
+    print("\n" + "=" * 60)
+    print("📊 CODE QUALITY ANALYSIS")
+    print("=" * 60)
+    
+    try:
+        quality = CodeQualityAnalyzer(code, result['language'])
+        quality_report = quality.analyze()
+        
+        print(f"Quality Score  : {quality_report['quality_score']}/100")
+        print(f"Code Lines     : {quality_report['line_counts']['code']}")
+        print(f"Comment Lines  : {quality_report['line_counts']['comments']}")
+        print(f"Blank Lines    : {quality_report['line_counts']['blank']}")
+        
+        complexity = quality_report.get('complexity', 'N/A')
+        print(f"Complexity     : {complexity}")
+        print(f"Comment Ratio  : {quality_report['comment_ratio']}%")
+        
+        if quality_report['suggestions']:
+            print("\n💡 Quality Suggestions:")
+            for i, suggestion in enumerate(quality_report['suggestions'], start=1):
+                print(f"  {i}. {suggestion}")
+        else:
+            print("\n✅ Code quality looks good!")
+    
+    except Exception as e:
+        print("ℹ️ Quality analysis unavailable for this code snippet.")
 
     print("\n" + "=" * 60)
     print("Done.")

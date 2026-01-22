@@ -4,7 +4,9 @@
 # ============================================================
 
 import streamlit as st
-from error_engine import detect_errors
+from src.error_engine import detect_errors
+from src.auto_fix import AutoFixer
+from src.quality_analyzer import CodeQualityAnalyzer
 
 # ------------------------------------------------------------
 # Page Configuration
@@ -98,6 +100,32 @@ if code_input.strip():
         st.subheader("🧠 AI Tutor Explanation")
         st.write(f"**Why this happened:** {result['tutor']['why']}")
         st.write(f"**How to fix it:** {result['tutor']['fix']}")
+        
+        # --------------------------------------------------------
+        # AUTO-FIX SUGGESTION
+        # --------------------------------------------------------
+        st.subheader("🔧 Auto-Fix Suggestion")
+        fixer = AutoFixer()
+        
+        # Get line number from rule-based issues if available
+        line_num = 0
+        if result.get('rule_based_issues'):
+            for issue in result['rule_based_issues']:
+                if issue.get('line'):
+                    line_num = issue['line'] - 1
+                    break
+        
+        fix_result = fixer.apply_fixes(code_input, result['predicted_error'], line_num, result['language'])
+        
+        if fix_result['success']:
+            st.success("✅ Automatic fix applied!")
+            st.code(fix_result['fixed_code'], language=result['language'].lower())
+            
+            with st.expander("📋 View Changes"):
+                for change in fix_result['changes']:
+                    st.write(f"• {change}")
+        else:
+            st.info("ℹ️ Manual correction recommended for this error type.")
 
         # ----------------------------------------------------
         # Rule-Based Issues (Python)
@@ -118,6 +146,36 @@ if code_input.strip():
         else:
             # Non-Python / ML-only case → highlight entire snippet
             error_lines = set(range(1, len(code_input.splitlines()) + 1))
+    
+    # --------------------------------------------------------
+    # CODE QUALITY ANALYSIS
+    # --------------------------------------------------------
+    st.subheader("📊 Code Quality Analysis")
+    
+    try:
+        quality = CodeQualityAnalyzer(code_input, result['language'])
+        quality_report = quality.analyze()
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            st.metric("Quality Score", f"{quality_report['quality_score']}/100")
+        with col2:
+            st.metric("Code Lines", quality_report['line_counts']['code'])
+        with col3:
+            complexity = quality_report.get('complexity', 'N/A')
+            st.metric("Complexity", complexity)
+        
+        # Quality suggestions
+        if quality_report['suggestions']:
+            with st.expander("💡 Quality Suggestions", expanded=False):
+                for suggestion in quality_report['suggestions']:
+                    st.write(f"• {suggestion}")
+        else:
+            st.success("✅ Code quality looks good!")
+    
+    except Exception as e:
+        st.info("ℹ️ Quality analysis unavailable for this code snippet.")
 
     # --------------------------------------------------------
     # Code Display with Highlighting
