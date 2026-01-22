@@ -11,14 +11,52 @@ from sklearn.metrics import (
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
+import os
 
 # Load models and data
-model = joblib.load('models/error_classifier.pkl')
-vectorizer = joblib.load('models/tfidf.pkl')
+model = joblib.load('models/syntax_error_model.pkl')
+vectorizer = joblib.load('models/tfidf_vectorizer.pkl')
 label_encoder = joblib.load('models/label_encoder.pkl')
 
+# Load numerical features if available
+try:
+    numerical_features = joblib.load('models/numerical_features.pkl')
+except:
+    numerical_features = None
+
 df = pd.read_csv('dataset/merged/all_errors.csv')
-X = vectorizer.transform(df['buggy_code'])
+
+# Handle both 'code' and 'buggy_code' columns
+if 'buggy_code' in df.columns:
+    code_column = 'buggy_code'
+elif 'code' in df.columns:
+    code_column = 'code'
+else:
+    raise ValueError("Dataset must have either 'code' or 'buggy_code' column")
+
+# Extract features same way as training
+from scipy.sparse import hstack
+
+X_text = vectorizer.transform(df[code_column])
+
+if numerical_features is not None:
+    # Extract numerical features
+    df['code_length'] = df[code_column].fillna('').astype(str).apply(len)
+    df['num_lines'] = df[code_column].fillna('').astype(str).apply(lambda x: x.count('\n') + 1)
+    df['has_division'] = df[code_column].fillna('').astype(str).apply(lambda x: '/' in x or '%' in x).astype(int)
+    df['has_type_conv'] = df[code_column].fillna('').astype(str).apply(lambda x: 'int(' in x or 'float(' in x or 'str(' in x or 'static_cast' in x).astype(int)
+    df['missing_colon'] = df[code_column].fillna('').astype(str).apply(lambda x: any(kw in x for kw in ['def ', 'if ', 'for ', 'while ', 'class ', 'elif ']) and not x.strip().endswith(':')).astype(int)
+    df['missing_semicolon'] = df[code_column].fillna('').astype(str).apply(lambda x: any(kw in x for kw in ['int ', 'float ', 'String ', 'return ']) and not x.strip().endswith(';')).astype(int)
+    df['compares_zero'] = df[code_column].fillna('').astype(str).apply(lambda x: '== 0' in x or '!= 0' in x or '/0' in x or '/ 0' in x).astype(int)
+    df['has_string_ops'] = df[code_column].fillna('').astype(str).apply(lambda x: '"' in x or "'" in x).astype(int)
+    df['has_type_decl'] = df[code_column].fillna('').astype(str).apply(lambda x: any(kw in x for kw in ['int ', 'float ', 'double ', 'char ', 'String '])).astype(int)
+    df['bracket_diff'] = df[code_column].fillna('').astype(str).apply(lambda x: abs(x.count('(') - x.count(')')) + abs(x.count('[') - x.count(']')) + abs(x.count('{') - x.count('}')))
+    
+    X_numeric = df[numerical_features].values
+    X = hstack([X_text, X_numeric])
+else:
+    X = X_text
+
 y_true = label_encoder.transform(df['error_type'])
 y_pred = model.predict(X)
 

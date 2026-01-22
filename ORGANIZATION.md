@@ -23,7 +23,7 @@ LLM_Syntax_Error_Checker/
 ├── 🧠 Core Engine (src/)
 │   ├── __init__.py                # Package initialization
 │   ├── error_engine.py            # Main orchestrator
-│   ├── ml_engine.py               # ML inference (98.82%)
+│   ├── ml_engine.py               # ML inference (99.80%)
 │   ├── syntax_checker.py          # Rule-based parser
 │   ├── language_detector.py       # Language detection
 │   ├── tutor_explainer.py         # Error explanations
@@ -67,7 +67,7 @@ LLM_Syntax_Error_Checker/
 │   └── indentation_error.py
 │
 ├── 📈 Results (results/)
-│   ├── optimized_results.csv      # 98.82% accuracy
+│   ├── optimized_results.csv      # 99.80% accuracy
 │   ├── advanced_metrics.txt       # Cohen's Kappa, etc.
 │   └── results.json               # Legacy results
 │

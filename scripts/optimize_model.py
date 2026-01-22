@@ -19,6 +19,15 @@ warnings.filterwarnings('ignore')
 def create_enhanced_features(df):
     """Create enhanced features beyond just code text"""
     
+    # Ensure buggy_code column exists (handle both 'code' and 'buggy_code' columns)
+    if 'code' in df.columns and 'buggy_code' not in df.columns:
+        df['buggy_code'] = df['code']
+    elif 'buggy_code' not in df.columns:
+        raise ValueError("Dataset must have either 'code' or 'buggy_code' column")
+    
+    # Clean buggy_code column
+    df['buggy_code'] = df['buggy_code'].fillna('').astype(str)
+    
     # Feature 1: Code length
     df['code_length'] = df['buggy_code'].apply(len)
     

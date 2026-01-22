@@ -1,26 +1,26 @@
 ADVANCED EVALUATION METRICS REPORT
 ============================================================
 
-Cohen's Kappa: 0.8385
-Matthews Correlation Coefficient: 0.8413
+Cohen's Kappa: 0.9996
+Matthews Correlation Coefficient: 0.9996
 
           Error Type  Precision   Recall  F1-Score  Support
+      DivisionByZero   1.000000 1.000000  1.000000      344
+ DuplicateDefinition   1.000000 1.000000  1.000000       84
          ImportError   1.000000 1.000000  1.000000      104
-      WildcardImport   1.000000 1.000000  1.000000      103
+        InfiniteLoop   1.000000 1.000000  1.000000      105
+   InvalidAssignment   1.000000 1.000000  1.000000      170
          LineTooLong   1.000000 1.000000  1.000000      100
+       MissingImport   1.000000 1.000000  1.000000      102
+      MutableDefault   1.000000 1.000000  1.000000      100
+      MissingInclude   1.000000 1.000000  1.000000      111
+        TypeMismatch   1.000000 1.000000  1.000000      317
+           NameError   1.000000 1.000000  1.000000      100
+    UnmatchedBracket   1.000000 1.000000  1.000000      105
      UnreachableCode   1.000000 1.000000  1.000000       66
+      UnclosedString   1.000000 1.000000  1.000000       90
 UndeclaredIdentifier   1.000000 1.000000  1.000000       47
-       MissingImport   0.990291 1.000000  0.995122      102
-      MutableDefault   0.990099 1.000000  0.995025      100
-        InfiniteLoop   0.937500 1.000000  0.967742      105
-           NameError   0.934579 1.000000  0.966184      100
- DuplicateDefinition   1.000000 0.928571  0.962963       84
-    IndentationError   0.888889 1.000000  0.941176      104
-      MissingInclude   0.941176 0.864865  0.901408      111
-    UnmatchedBracket   0.946809 0.847619  0.894472      105
-      UnusedVariable   0.871795 0.871795  0.871795       78
-      UnclosedString   0.769231 1.000000  0.869565       90
-   InvalidAssignment   0.595745 0.933333  0.727273       90
-      DivisionByZero   0.548896 0.776786  0.643253      224
-        TypeMismatch   0.872727 0.487310  0.625407      197
-    MissingDelimiter   0.750000 0.440758  0.555224      211
+      UnusedVariable   1.000000 1.000000  1.000000       78
+      WildcardImport   1.000000 1.000000  1.000000      103
+    MissingDelimiter   1.000000 0.996885  0.998440      321
+    IndentationError   0.990476 1.000000  0.995215      104

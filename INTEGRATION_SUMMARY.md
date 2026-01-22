@@ -34,7 +34,7 @@
 
 3. **`ml_engine.py`** (ML Prediction)
    - Updated to use optimized model files:
-     - `syntax_error_model.pkl` (Random Forest, 98.82% accuracy)
+     - `syntax_error_model.pkl` (Gradient Boosting, 99.80% accuracy)
      - `tfidf_vectorizer.pkl` (8K features, character-level)
      - `numerical_features.pkl` (10 enhanced features)
    - Added enhanced feature extraction function
@@ -142,7 +142,7 @@ The ML engine now extracts 10 numerical features:
 User Input → Error Detection → Auto-Fix → Quality Analysis → Output
                   ↓                ↓              ↓
             ML Engine        AutoFixer    QualityAnalyzer
-            (98.82%)        (language-    (metrics +
+            (99.80%)        (language-    (metrics +
                             aware)         suggestions)
 ```
 
@@ -156,7 +156,7 @@ User Input → Error Detection → Auto-Fix → Quality Analysis → Output
 | Auto-Fix | ❌ | ✅ NEW |
 | Quality Analysis | ❌ | ✅ NEW |
 | Language Support | 4 | 4 |
-| Accuracy | 98.82% | 98.82% |
+| Accuracy | 99.80% | 99.80% |
 | User Experience | Basic | Enhanced |
 
 ---
